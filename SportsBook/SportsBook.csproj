@@ -63,12 +63,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\TappedMeny.xaml.cs">
+	    <DependentUpon>TappedMeny.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SportsPage.xaml.cs">
 	    <DependentUpon>SportsPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\TappedMeny.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\SportsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
