@@ -47,7 +47,7 @@ namespace SportsBook
                                     .Sportslist;
                                 
 
-                                return new SportsPage(sport.sportname, listOfLeagues ?? new List<League>());
+                                return new TappedMeny(sport.sportname, listOfLeagues ?? new List<League>());
                             })
                         };
 
