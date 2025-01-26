@@ -5,33 +5,28 @@ namespace SportsBook
 {
     public partial class TappedMeny : TabbedPage
     {
-        int count = 0;
 
-        public TappedMeny()
+        public TappedMeny(string sportname, List<League> leagues)
         {
             InitializeComponent();
 
             // Define your list of tabs
-            var tabs = new List<(string Title, string Content)>
-        {
-            ("Home", "Welcome to the Home Page!"),
-            ("Settings", "Here are your settings."),
-            ("Profile", "This is your profile page."),
-        };
+            
+        
 
             // Create tabs from the list
-            foreach (var tab in tabs)
+            foreach (var tab in leagues)
             {
                 var contentPage = new ContentPage
                 {
-                    Title = tab.Title,
+                    Title = tab.Description,
                     Content = new StackLayout
                     {
                         Children =
                     {
                         new Label
                         {
-                            Text = tab.Content,
+                            Text = tab.Description,
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.CenterAndExpand
                         }
@@ -46,7 +41,7 @@ namespace SportsBook
 
 
 
-
+        
     }
 
 }

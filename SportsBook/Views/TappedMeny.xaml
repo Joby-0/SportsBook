@@ -2,21 +2,6 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="SportsBook.TappedMeny">
 
-    <NavigationPage Title="Home" IconImageSource="home_icon.png">
-        <x:Arguments>
-            <ContentPage>
-                <StackLayout>
-                    <Label Text="Home Page Content" />
-                </StackLayout>
-            </ContentPage>
-        </x:Arguments>
-    </NavigationPage>
-
-    <ContentPage Title="Settings" IconImageSource="settings_icon.png">
-        <StackLayout>
-            <Label Text="Settings Page Content" />
-        </StackLayout>
-    </ContentPage>
 
 </TabbedPage>
 
