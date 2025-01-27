@@ -1,11 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SportsBook.SportsPage"
-             BackgroundColor="Blue">
+             x:Class="SportsBook.SportsPage">
+    <ContentPage.Content>
 
-    <StackLayout Padding="10" Spacing="10">
-        
-    </StackLayout>
+
+
+
+
+        <StackLayout>
+
+            <!--<StackLayout HeightRequest="30" BackgroundColor="Grey" Orientation="Horizontal">-->
+            <CollectionView HeightRequest="40" VerticalOptions="Start" x:Name="LeagueTabList" 
+                ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChanged="LeagueTabList_SelectionChanged">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Vertical" Padding="5,0" HorizontalOptions="Center" VerticalOptions="Center">
+                            <!--<Frame ZIndex="4" HasShadow="False" Padding="60" CornerRadius="0">-->
+                            <!--<StackLayout BackgroundColor="Blue" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">-->
+
+                            <RadioButton  Content="{Binding Description}" GroupName="LeagueRadioButtonGroup" >
+
+                                <RadioButton.ControlTemplate>
+                                    <ControlTemplate>
+                                        <Grid RowDefinitions="30,4">
+                                            <!-- Visual State Manager for Checked and Unchecked States -->
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CheckedStates">
+                                                    <!-- Checked State -->
+                                                    <VisualState x:Name="Checked">
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                                            <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+
+                                                    <!-- Unchecked State -->
+                                                    <VisualState x:Name="Unchecked">
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
+                                                            <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+
+                                            <!-- Content Label -->
+                                            <Label x:Name="TextLabel" Text="{TemplateBinding Content}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small" />
+                                            <!-- Indicator BoxView -->
+                                            <BoxView x:Name="Indicator" Grid.Row="1" HeightRequest="3" HorizontalOptions="Fill" VerticalOptions="Center" Color="Transparent" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </RadioButton.ControlTemplate>
+                            </RadioButton>
+
+                            <!--</StackLayout>-->
+                            <!--</Frame>-->
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--</StackLayout>-->
+            <StackLayout>
+
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
 
 </ContentPage>

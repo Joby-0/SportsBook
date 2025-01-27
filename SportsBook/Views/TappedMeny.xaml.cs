@@ -8,35 +8,35 @@ namespace SportsBook
 
         public TappedMeny(string sportname, List<League> leagues)
         {
-            InitializeComponent();
+            //InitializeComponent();
 
-            // Define your list of tabs
+            //// Define your list of tabs
             
         
 
-            // Create tabs from the list
-            foreach (var tab in leagues)
-            {
-                var contentPage = new ContentPage
-                {
-                    Title = tab.Description,
-                    Content = new StackLayout
-                    {
-                        Children =
-                    {
-                        new Label
-                        {
-                            Text = tab.Description,
-                            VerticalOptions = LayoutOptions.CenterAndExpand,
-                            HorizontalOptions = LayoutOptions.CenterAndExpand
-                        }
-                    }
-                    }
-                };
+            //// Create tabs from the list
+            //foreach (var tab in leagues)
+            //{
+            //    var contentPage = new SportsPage(tab.Description, leagues)
+            //    {
+            //        Title = tab.Description,
+            //        Content = new StackLayout
+            //        {
+            //            Children =
+            //        {
+            //            new Label
+            //            {
+            //                Text = tab.Description,
+            //                VerticalOptions = LayoutOptions.CenterAndExpand,
+            //                HorizontalOptions = LayoutOptions.CenterAndExpand
+            //            }
+            //        }
+            //        }
+            //    };
 
-                // Add the tab to the TabbedPage
-                this.Children.Add(contentPage);
-            }
+            //    // Add the tab to the TabbedPage
+            //    this.Children.Add(contentPage);
+            //}
         }
 
 

@@ -6,12 +6,14 @@ namespace SportsBook
 {
     public partial class AppShell : Shell
     {
-
+        
         public AppShell()
         {
             InitializeComponent();
-
+            
             AddShellContentasync();
+            
+
 
         }
         private async void AddShellContentasync()
@@ -45,9 +47,12 @@ namespace SportsBook
                                     listOfLeagues = gropedSportList
                                     .FirstOrDefault(g => g.sportname == sport.sportname)?
                                     .Sportslist;
-                                
 
-                                return new TappedMeny(sport.sportname, listOfLeagues ?? new List<League>());
+
+                                // Create a TabbedPage for the sport and its leagues
+                                var tabbedPage = new SportsPage(sport.sportname, listOfLeagues ?? new List<League>());
+                                
+                                return tabbedPage;
                             })
                         };
 
@@ -61,7 +66,8 @@ namespace SportsBook
             }
             catch (Exception ex)
             {
-                
+
+                throw;
             }
         }
     }
