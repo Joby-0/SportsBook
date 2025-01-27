@@ -55,13 +55,16 @@ namespace SportsBook
 
         private async void LeagueTabList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await DisplayAlert("hej", $"{e.CurrentSelection}", "OK");
+            var selectedLeague = e.CurrentSelection as League;
+            if(selectedLeague != null)
+            {
+                await DisplayAlert("hej", $"{selectedLeague.Title}", "OK");
+
+
+            }
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-        {
-
-        }
+        
     }
 
 }
