@@ -55,9 +55,13 @@ namespace SportsBook
 
         private async void LeagueTabList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedLeague = e.CurrentSelection as League;
+            var selectedLeague = e.CurrentSelection as League; //blir null
+
             if(selectedLeague != null)
             {
+                //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
+
+
                 await DisplayAlert("hej", $"{selectedLeague.Title}", "OK");
 
 

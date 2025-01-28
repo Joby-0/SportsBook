@@ -3,14 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SportsBook.SportsPage">
     <ContentPage.Content>
-        
 
-
-
-
-
-        <StackLayout>
-
+        <!--League meny -->
+        <StackLayout> 
             <!--<StackLayout HeightRequest="30" BackgroundColor="Grey" Orientation="Horizontal">-->
             <CollectionView HeightRequest="40" VerticalOptions="Start" x:Name="LeagueTabList" 
                 ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChanged="LeagueTabList_SelectionChanged">
@@ -18,69 +13,36 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
-                            <Frame ZIndex="2" Background="Transparent" HasShadow="False" Padding="50" HeightRequest="40" CornerRadius="0">
-                                <!--<StackLayout BackgroundColor="Blue" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">-->
-
-                                <RadioButton  GroupName="LeagueRadioButtonGroup" >
-                                    <RadioButton.Content>
-                                        <Label Text="{Binding Description}"></Label>
-                                    </RadioButton.Content>
-    
-                                    <!--<RadioButton.ControlTemplate>
-                                    <ControlTemplate>
-                                        <Grid RowDefinitions="40,4">
-                                            -->
-                                    <!-- Visual State Manager for Checked and Unchecked States -->
-                                    <!--
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup x:Name="CheckedStates">
-                                                    -->
-                                    <!-- Checked State -->
-                                    <!--
-                                                    <VisualState x:Name="Checked">
-                                                        <VisualState.Setters>
-                                                            <Setter TargetName="TextLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
-                                                            <Setter TargetName="Indicator" Property="BoxView.Color" Value="{StaticResource Primary}" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-
-                                                    -->
-                                    <!-- Unchecked State -->
-                                    <!--
-                                                    <VisualState x:Name="Unchecked">
-                                                        <VisualState.Setters>
-                                                            <Setter TargetName="TextLabel" Property="Label.TextColor" Value="White" />
-                                                            <Setter TargetName="Indicator" Property="BoxView.Color" Value="Transparent" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateManager.VisualStateGroups>
-
-                                            -->
-                                    <!-- Content Label -->
-                                    <!--
-                                            <Label ZIndex="0" x:Name="TextLabel" Text="{TemplateBinding Content}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small" />
-                                            -->
-                                    <!-- Indicator BoxView -->
-                                    <!--
-                                            <BoxView x:Name="Indicator" Grid.Row="1" HeightRequest="3" HorizontalOptions="Fill" VerticalOptions="Center" Color="Transparent" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </RadioButton.ControlTemplate>-->
-                                </RadioButton>
-
-                                <!--</StackLayout>-->
+                            <Frame  Background="Transparent" HasShadow="False" Padding="5" Margin="0" HeightRequest="40" CornerRadius="0">
+                                
+                                <Label HeightRequest="40" 
+                                       MinimumWidthRequest="100" 
+                                       WidthRequest="100" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                       FontSize="Small"
+                                       BackgroundColor="Blue" 
+                                       TextColor="Red" 
+                                       Text="{Binding Description}"></Label>
+                                
                             </Frame>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <!--</StackLayout>-->
-            <StackLayout>
-
-            </StackLayout>
+            <CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </StackLayout>
+        
     </ContentPage.Content>
 
 </ContentPage>
