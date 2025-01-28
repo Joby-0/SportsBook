@@ -1,11 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SportsBook.SportsPage"
-             BackgroundColor="Blue">
+             x:Class="SportsBook.SportsPage">
+    <ContentPage.Content>
 
-    <StackLayout Padding="10" Spacing="10">
+        <!--League meny -->
+        <StackLayout> 
+            <!--<StackLayout HeightRequest="30" BackgroundColor="Grey" Orientation="Horizontal">-->
+            <CollectionView HeightRequest="40" VerticalOptions="Start" x:Name="LeagueTabList" 
+                ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChanged="LeagueTabList_SelectionChanged">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Frame  Background="Transparent" HasShadow="False" Padding="5" Margin="0" HeightRequest="40" CornerRadius="0">
+                                
+                                <Label HeightRequest="40" 
+                                       MinimumWidthRequest="100" 
+                                       WidthRequest="100" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                       FontSize="Small"
+                                       BackgroundColor="Blue" 
+                                       TextColor="Red" 
+                                       Text="{Binding Description}"></Label>
+                                
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--</StackLayout>-->
+            <CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </StackLayout>
         
-    </StackLayout>
+    </ContentPage.Content>
 
 </ContentPage>

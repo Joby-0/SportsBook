@@ -14,7 +14,11 @@ namespace SportsBook.Service
     internal class OpenSportsService
     {
         readonly HttpClient _httpClient = new HttpClient();
-        readonly string apiKey = "25a76397ce707ce354744acbafd9acf5";
+        //readonly string apiKey = "25a76397ce707ce354744acbafd9acf5";
+        //readonly string apiKey = "773f1bb5185087c5a40801f8fa5c5eb6";
+        readonly string apiKey = "214fd128fb2e1b884caa6b784285de73";
+
+
         readonly string apiUrl = "https://api.the-odds-api.com/";
         readonly string regions = "eu";
         readonly string markets = "h2h";

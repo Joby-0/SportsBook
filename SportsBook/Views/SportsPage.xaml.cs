@@ -1,6 +1,9 @@
 ﻿using SportsBook.Models;
 using SportsBook.Service;
 
+using Microsoft.Maui.Controls.Xaml;
+using System.Collections.ObjectModel;
+
 namespace SportsBook
 {
 
@@ -14,17 +17,23 @@ namespace SportsBook
         public SportsPage(string sport, IEnumerable<League> sports)
         {
             InitializeComponent();
-            this.sportname = sport;
+            sportname = sport;
             service = new OpenSportsService();
-            this.leagueList = sports ?? new List<League>(); //vill bara få den man klcikar på
+            
+            //this.leagueList = sports ?? new List<League>(); //vill bara få den man klcikar på
+            leagueList = new List<League>(sports ?? new List<League>());
+            
+
             LoadLeagueDataAsync();
+
 
         }
         private async void LoadLeagueDataAsync()
         {
             try
             {
-                foreach (var league in this.leagueList)
+                
+                foreach (var league in leagueList)
                 {
                     if (league.Key.ToLower().Contains("winner"))
                     {
@@ -33,23 +42,33 @@ namespace SportsBook
                     else
                     {
                         league.LeagueGames = await service.GetApiDataAsync(league.Key);
-                        //foreach (var item in this.sportList)
-                        //{
-                        //    tabLeague.Title = item.Title;
-                        //    tabLeague.Items.Add(new ShellContent());
-                        //}
+                        LeagueTabList.ItemsSource = leagueList;
 
                     }
                 }
-
-
-
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"Failed to load data: {ex.Message}", "OK");
             }
         }
+
+        private async void LeagueTabList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedLeague = e.CurrentSelection as League; //blir null
+
+            if(selectedLeague != null)
+            {
+                //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
+
+
+                await DisplayAlert("hej", $"{selectedLeague.Title}", "OK");
+
+
+            }
+        }
+
+        
     }
 
 }
