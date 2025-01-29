@@ -5,7 +5,7 @@
     <ContentPage.Content>
 
         <!--League meny -->
-        <StackLayout> 
+        <StackLayout>
             <!--<StackLayout HeightRequest="30" BackgroundColor="Grey" Orientation="Horizontal">-->
             <CollectionView HeightRequest="40" VerticalOptions="Start" x:Name="LeagueTabList" 
                 ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChanged="LeagueTabList_SelectionChanged">
@@ -14,35 +14,99 @@
                     <DataTemplate>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
                             <Frame  Background="Transparent" HasShadow="False" Padding="5" Margin="0" HeightRequest="40" CornerRadius="0">
-                                
+
                                 <Label HeightRequest="40" 
                                        MinimumWidthRequest="100" 
-                                       WidthRequest="100" 
+                                       
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        FontSize="Small"
                                        BackgroundColor="Blue" 
                                        TextColor="Red" 
                                        Text="{Binding Description}"></Label>
-                                
+
                             </Frame>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <!--</StackLayout>-->
-            <CollectionView>
+            
+            
+            <CollectionView x:Name="LeagueGamesGrid">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            
+                            <StackLayout>
+
+                                <Grid RowDefinitions="20, 60, 30, 25"
+                                    ColumnDefinitions="70, 70, 70"
+                                    Padding="20">
+
+                                    <!-- Row 1, Column 1 -->
+                                    <BoxView Grid.Row="0" Grid.ColumnSpan="3" BackgroundColor="Red" HeightRequest="20"/>
+                                    <Label Grid.Row="0" Grid.Column="0" FontSize="10" HorizontalOptions="Start" VerticalOptions="Start">Live</Label>
+                                    <!-- Row 1, Column 2 -->
+
+
+                                    <!-- Row 2, Column 1 -->
+
+                                    <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Green" />
+                                    <Image Source="circle.png" Grid.Row="1" Grid.Column="0" BackgroundColor="Black" HeightRequest="50" WidthRequest="50"/>
+
+                                    <!-- Row 2, Column 2 -->
+                                    <BoxView Grid.Row="1" Grid.Column="1" BackgroundColor="Blue" />
+                                    <Label Grid.Row="1" Grid.Column="1" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center">1-4</Label>
+
+
+                                    <!-- Row 2, Column 3 -->
+                                    <BoxView Grid.Row="1" Grid.Column="2"  BackgroundColor="Pink"/>
+                                    <Image Source="circle.png" Grid.Row="1" Grid.Column="2" BackgroundColor="Black" HeightRequest="50" WidthRequest="50"/>
+
+
+                                    <!-- Row 3 (For Team name and time) -->
+                                    <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="AliceBlue"  />
+                                    <!--Home team-->
+                                    <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding home_team}"></Label>
+
+                                    <BoxView Grid.Row="2" Grid.Column="1"  />
+                                    <!--Time-->
+                                    <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="Black" VerticalOptions="Start">53:42</Label>
+
+
+                                    <BoxView Grid.Row="2" Grid.Column="2"  BackgroundColor="AliceBlue"  />
+                                    <!--Away team-->
+                                    <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding away_team}"></Label>
+
+
+
+
+                                    <!-- Row 4, Buttons ods -->
+
+                                    <!--Home team-->
+                                    <BoxView Grid.Row="3" Grid.Column="0"  />
+                                    <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" >1.64</Label>
+                                    <!--draw-->
+                                    <BoxView Grid.Row="3" Grid.Column="1" BackgroundColor="AliceBlue"/>
+                                    <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" >2.54</Label>
+
+                                    <!--Away team-->
+                                    <BoxView Grid.Row="3" Grid.Column="2"   />
+                                    <Label Grid.Row="3" Grid.Column="2" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" >1.51</Label>
+
+
+
+                                </Grid>
+
+                            </StackLayout>
+
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
         </StackLayout>
-        
+
     </ContentPage.Content>
 
 </ContentPage>

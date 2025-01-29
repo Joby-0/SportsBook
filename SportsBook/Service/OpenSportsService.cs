@@ -1,5 +1,6 @@
 ﻿//using Foundation;
 using Microsoft.Maui.Controls;
+using Microsoft.VisualBasic;
 using SportsBook.Models;
 using System;
 using System.Collections.Generic;
@@ -22,17 +23,19 @@ namespace SportsBook.Service
         readonly string apiUrl = "https://api.the-odds-api.com/";
         readonly string regions = "eu";
         readonly string markets = "h2h";
+        readonly string daysFrom = "1"
+        readonly string dateFormat = "iso"
 
-        public async Task<List<SportsApiData>> GetApiDataAsync(string sportName)
+        public async Task<List<SportsApiData>> GetApiDataAsyncOdds(string sportName)
         {
 
             var url = $"{apiUrl}/v4/sports/{sportName}/odds/?apiKey={apiKey}&regions={regions}&markets={markets}";
-            List<SportsApiData> sportsApiData = await ReadApiasync(url);
+            List<SportsApiData> sportsApiData = await ReadApiasyncOdds(url);
 
             return sportsApiData;
         }
 
-        public async Task<List<SportsApiData>> ReadApiasync(string url)
+        public async Task<List<SportsApiData>> ReadApiasyncOdds(string url)
         {
             try
             {
@@ -76,6 +79,34 @@ namespace SportsBook.Service
 
                 throw;
             }
+        }
+
+        public async Task<List<SportsApiData>> GetApiDataAsyncScores(string sportName)
+        {
+
+            var url = $"/v4/sports/{sportName}/scores/?apiKey={apiKey}&daysFrom={daysFrom}&dateFormat={dateFormat}";
+            List<SportsApiData> sportsApiData = await ReadApiasyncScores(url);
+
+            return sportsApiData;
+        }
+
+        public async Task<List<SportsApiData>> ReadApiasyncScores(string url)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var sportsApiData = await response.Content.ReadFromJsonAsync<List<SportsApiData>>();
+
+                return sportsApiData ?? new List<SportsApiData>();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
     }
 }
