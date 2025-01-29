@@ -23,8 +23,8 @@ namespace SportsBook.Service
         readonly string apiUrl = "https://api.the-odds-api.com/";
         readonly string regions = "eu";
         readonly string markets = "h2h";
-        readonly string daysFrom = "1"
-        readonly string dateFormat = "iso"
+        readonly string daysFrom = "3";
+        readonly string dateFormat = "iso";
 
         public async Task<List<SportsApiDataOdds>> GetApiDataAsyncOdds(string sportName)
         {
@@ -84,7 +84,7 @@ namespace SportsBook.Service
         public async Task<List<SportApiDataScores>> GetApiDataAsyncScores(string sportName)
         {
 
-            var url = $"/v4/sports/{sportName}/scores/?apiKey={apiKey}&daysFrom={daysFrom}&dateFormat={dateFormat}";
+            var url = $"{apiUrl}v4/sports/{sportName}/scores/?apiKey={apiKey}&daysFrom={daysFrom}&dateFormat={dateFormat}";
             List<SportApiDataScores> sportsApiData = await ReadApiasyncScores(url);
 
             return sportsApiData;
