@@ -24,11 +24,11 @@ namespace SportsBook
             leagueList = new List<League>(sports ?? new List<League>());
             
 
-            LoadLeagueDataAsync();
+            LoadLeagueGamesAndScoresDataAsync();
 
 
         }
-        private async void LoadLeagueDataAsync()
+        private async void LoadLeagueGamesAndScoresDataAsync()
         {
             try
             {
@@ -65,15 +65,33 @@ namespace SportsBook
                     //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
                     LeagueGamesGrid.ItemsSource = selectedLeague.LeagueGames;
 
-                    await DisplayAlert("hej", $"{selectedLeague.Title}", "OK");
-
+                    LeagueGamesScoresLoad(selectedLeague);
 
                 }
             }
-            
+            else 
+            { 
+                    await DisplayAlert("hej", $"No games found", "OK");
+
+            }
+
+        }
+        private async void LeagueGamesScoresLoad(League selectedLeague)
+        {
+            foreach (var game in selectedLeague.LeagueGames)
+            {
+
+                
+                if (game.scores == null)
+                {
+                    
+                }
+                
+            }
         }
 
-        
+
+
     }
 
 }
