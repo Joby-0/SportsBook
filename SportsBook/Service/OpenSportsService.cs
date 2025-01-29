@@ -26,24 +26,24 @@ namespace SportsBook.Service
         readonly string daysFrom = "1"
         readonly string dateFormat = "iso"
 
-        public async Task<List<SportsApiData>> GetApiDataAsyncOdds(string sportName)
+        public async Task<List<SportsApiDataOdds>> GetApiDataAsyncOdds(string sportName)
         {
 
             var url = $"{apiUrl}/v4/sports/{sportName}/odds/?apiKey={apiKey}&regions={regions}&markets={markets}";
-            List<SportsApiData> sportsApiData = await ReadApiasyncOdds(url);
+            List<SportsApiDataOdds> sportsApiData = await ReadApiasyncOdds(url);
 
             return sportsApiData;
         }
 
-        public async Task<List<SportsApiData>> ReadApiasyncOdds(string url)
+        public async Task<List<SportsApiDataOdds>> ReadApiasyncOdds(string url)
         {
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
                 response.EnsureSuccessStatusCode();
-                var sportsApiData = await response.Content.ReadFromJsonAsync<List<SportsApiData>>();
+                var sportsApiData = await response.Content.ReadFromJsonAsync<List<SportsApiDataOdds>>();
 
-                return sportsApiData ?? new List<SportsApiData>();
+                return sportsApiData ?? new List<SportsApiDataOdds>();
 
             }
             catch (Exception ex)
@@ -81,24 +81,24 @@ namespace SportsBook.Service
             }
         }
 
-        public async Task<List<SportsApiData>> GetApiDataAsyncScores(string sportName)
+        public async Task<List<SportApiDataScores>> GetApiDataAsyncScores(string sportName)
         {
 
             var url = $"/v4/sports/{sportName}/scores/?apiKey={apiKey}&daysFrom={daysFrom}&dateFormat={dateFormat}";
-            List<SportsApiData> sportsApiData = await ReadApiasyncScores(url);
+            List<SportApiDataScores> sportsApiData = await ReadApiasyncScores(url);
 
             return sportsApiData;
         }
 
-        public async Task<List<SportsApiData>> ReadApiasyncScores(string url)
+        public async Task<List<SportApiDataScores>> ReadApiasyncScores(string url)
         {
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
                 response.EnsureSuccessStatusCode();
-                var sportsApiData = await response.Content.ReadFromJsonAsync<List<SportsApiData>>();
+                var sportsApiData = await response.Content.ReadFromJsonAsync<List<SportApiDataScores>>();
 
-                return sportsApiData ?? new List<SportsApiData>();
+                return sportsApiData ?? new List<SportApiDataScores>();
 
             }
             catch (Exception ex)

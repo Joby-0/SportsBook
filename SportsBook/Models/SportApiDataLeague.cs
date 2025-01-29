@@ -28,7 +28,7 @@ namespace SportsBook.Models
         public bool? Active { get; set; }
         public bool? HasOutrights { get; set; }
 
-        public List<SportsApiData>? LeagueGames { get; set; } // sätt in matcherna i den här 
+        public List<SportApiDataScores>? LeagueGames { get; set; } // sätt in matcherna i den här 
 
         
     }

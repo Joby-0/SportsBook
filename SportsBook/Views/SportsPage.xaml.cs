@@ -41,7 +41,8 @@ namespace SportsBook
                     }
                     else
                     {
-                        league.LeagueGames = await service.GetApiDataAsyncOdds(league.Key);
+                        //league.LeagueGames = await service.GetApiDataAsyncOdds(league.Key);
+                        league.LeagueGames = await service.GetApiDataAsyncScores(league.Key);
                         LeagueTabList.ItemsSource = leagueList;
                         
                     }
