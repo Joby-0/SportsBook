@@ -41,9 +41,10 @@ namespace SportsBook
                     }
                     else
                     {
-                        league.LeagueGames = await service.GetApiDataAsync(league.Key);
+                        //league.LeagueGames = await service.GetApiDataAsyncOdds(league.Key);
+                        league.LeagueGames = await service.GetApiDataAsyncScores(league.Key);
                         LeagueTabList.ItemsSource = leagueList;
-
+                        
                     }
                 }
             }
@@ -55,17 +56,21 @@ namespace SportsBook
 
         private async void LeagueTabList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedLeague = e.CurrentSelection as League; //blir null
-
-            if(selectedLeague != null)
+            if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
             {
-                //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
+                var selectedLeague = e.CurrentSelection.FirstOrDefault() as League; //blir null
+
+                if (selectedLeague != null)
+                {
+                    //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
+                    LeagueGamesGrid.ItemsSource = selectedLeague.LeagueGames;
+
+                    await DisplayAlert("hej", $"{selectedLeague.Title}", "OK");
 
 
-                await DisplayAlert("hej", $"{selectedLeague.Title}", "OK");
-
-
+                }
             }
+            
         }
 
         

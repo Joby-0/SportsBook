@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SportsBook.Models
 {
     
-    public class SportsApiData
+    public class SportsApiDataOdds
     {
         public string? id { get; set; }
         public string? sportKey { get; set; }
