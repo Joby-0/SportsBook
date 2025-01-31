@@ -13,6 +13,7 @@ namespace SportsBook
         OpenSportsService service;
         IEnumerable<League> leagueList;
         string sportname;
+        GroupedTeamsAndLogo groupedTeamsAndLogo;
 
         public SportsPage(string sport, IEnumerable<League> sports)
         {
@@ -65,7 +66,9 @@ namespace SportsBook
                     //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
                     LeagueGamesGrid.ItemsSource = selectedLeague.LeagueGames;
 
-                    LeagueGamesScoresLoad(selectedLeague);
+                    //LeagueGamesScoresLoad(selectedLeague);
+                    LoadLeagueTeamsLogo(selectedLeague);
+
 
                 }
             }
@@ -76,18 +79,27 @@ namespace SportsBook
             }
 
         }
-        private async void LeagueGamesScoresLoad(League selectedLeague)
-        {
-            foreach (var game in selectedLeague.LeagueGames)
-            {
+        //private async void LeagueGamesScoresLoad(League selectedLeague)
+        //{
+        //    foreach (var game in selectedLeague.LeagueGames)
+        //    {
 
                 
-                if (game.scores == null)
-                {
+        //        if (game.scores == null)
+        //        {
                     
-                }
+        //        }
                 
-            }
+        //    }
+        //}
+        private async void LoadLeagueTeamsLogo(League league)
+        {
+            var sport = league.Group;
+            //var teamLogo = await service.GetLeagueAndAllTeamLogos(sport);
+
+            
+
+
         }
 
 

@@ -43,51 +43,51 @@
                                 <Grid RowDefinitions="20, 60, 30, 25"
                                     ColumnDefinitions="70, 30,10 ,30, 70"
                                     Padding="20">
-
+                                    <BoxView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" BackgroundColor="Blue" ></BoxView>
                                     <!-- Live or start time -->
-                                    <BoxView Grid.Row="0" Grid.ColumnSpan="5" BackgroundColor="Red" HeightRequest="20"/>
+                                    <!--<BoxView Grid.Row="0" Grid.ColumnSpan="5" BackgroundColor="Red" HeightRequest="20"/>-->
                                     <Label  Grid.ColumnSpan="5" x:Name="LeagueGameLiveOrTimeOfStart" Text="{Binding commence_time, StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}" Grid.Row="0" Grid.Column="0" FontSize="10" HorizontalOptions="Start" VerticalOptions="Start"></Label>
                                     
 
 
                                     <!-- Home team logo -->
 
-                                    <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Green" />
+                                    <!--<BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Green" />-->
                                     <Image x:Name="LeagueGameHomeLogo" Source="circle.png" Grid.Row="1" Grid.Column="0" BackgroundColor="Black" HeightRequest="50" WidthRequest="50"/>
 
-                                    <!-- score -->
-                                    <CollectionView x:Name="LeagueGameScore" ItemsSource="{Binding Scores}">
+                                    <!-- score home and away-->
+                                    <CollectionView ItemsLayout="HorizontalList" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"  x:Name="LeagueGameScore" ItemsSource="{Binding scores}">
                                         <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Label Text="{Binding Score}" />
+                                            <DataTemplate >
+                                                <Label HorizontalOptions="Center" VerticalOptions="Center" Padding="10,7,5,6"  FontSize="30" Text="{Binding score, FallbackValue='{0}'}" />
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
-                                    <BoxView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="Blue" />
-                                    <Label Text="" x:Name="LeagueGameHomeScore"  Grid.Row="1" Grid.Column="1" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                                    <!--<BoxView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="Blue" />-->
+                                    <!--<Label Text="" x:Name="LeagueGameHomeScore"  Grid.Row="1" Grid.Column="1" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center"></Label>-->
                                     <Label Grid.Row="1" Grid.Column="2" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center">-</Label>
-                                    <Label Text="" x:Name="LeagueGameAwayScore" Grid.Row="1" Grid.Column="3" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                                    <!--<Label Text="" x:Name="LeagueGameAwayScore" Grid.Row="1" Grid.Column="3" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center"></Label>-->
 
 
 
 
 
                                     <!-- Away team logo -->
-                                    <BoxView Grid.Row="1" Grid.Column="4"  BackgroundColor="Pink"/>
+                                    <!--<BoxView Grid.Row="1" Grid.Column="4"  BackgroundColor="Pink"/>-->
                                     <Image x:Name="LeagueGameAwayLogo" Source="circle.png" Grid.Row="1" Grid.Column="4" BackgroundColor="Black" HeightRequest="50" WidthRequest="50"/>
 
 
                                     <!-- Row 3 (For Team name and time) -->
-                                    <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="AliceBlue"  />
+                                    <!--<BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="AliceBlue"  />-->
                                     <!--Home team-->
                                     <Label x:Name="LeagueGameHomeName" Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding home_team}"></Label>
 
-                                    <BoxView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" />
+                                    <!--<BoxView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" />-->
                                     <!--Time-->
                                     <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" HorizontalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="Black" VerticalOptions="Start">53:42</Label>
 
 
-                                    <BoxView Grid.Row="2" Grid.Column="5"  BackgroundColor="AliceBlue"  />
+                                    <!--<BoxView Grid.Row="2" Grid.Column="5"  BackgroundColor="AliceBlue"  />-->
                                     <!--Away team-->
                                     <Label x:Name="LeagueGameAwayName" Grid.Row="2" Grid.Column="5" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding away_team}"></Label>
 
@@ -99,6 +99,7 @@
                                     <!--Home team-->
                                     <BoxView Grid.Row="3" Grid.Column="0"  />
                                     <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" >1.64</Label>
+                                    
                                     <!--draw-->
                                     <BoxView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="AliceBlue"/>
                                     <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" >2.54</Label>

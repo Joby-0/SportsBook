@@ -18,6 +18,10 @@ namespace SportsBook.Models
         public List<Scores>? scores { get; set; }
         
         public DateTime? last_update { get; set; }
+
+        public string? home_team_logo { get; set; }
+        public string? away_team_logo { get; set; }
+
     }
 
     public class Scores
@@ -25,4 +29,5 @@ namespace SportsBook.Models
         public string? name { get; set; }
         public string? score { get; set; }
     }
+    //https://site.web.api.espn.com/apis/site/v2/sports/{soccer}/{eng.1}/teams/
 }
