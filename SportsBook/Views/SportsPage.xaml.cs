@@ -59,15 +59,16 @@ namespace SportsBook
         {
             if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
             {
-                var selectedLeague = e.CurrentSelection.FirstOrDefault() as League; //blir null
+                var selectedLeague = e.CurrentSelection.FirstOrDefault() as League; 
 
                 if (selectedLeague != null)
                 {
                     //LeagueGamesListView.ItemsSource = selectedLeague.LeagueGames;
+                    await LoadLeagueTeamsLogo(selectedLeague);
+
                     LeagueGamesGrid.ItemsSource = selectedLeague.LeagueGames;
 
-                    //LeagueGamesScoresLoad(selectedLeague);
-                    LoadLeagueTeamsLogo(selectedLeague);
+                    
 
 
                 }
@@ -79,25 +80,15 @@ namespace SportsBook
             }
 
         }
-        //private async void LeagueGamesScoresLoad(League selectedLeague)
-        //{
-        //    foreach (var game in selectedLeague.LeagueGames)
-        //    {
-
-                
-        //        if (game.scores == null)
-        //        {
-                    
-        //        }
-                
-        //    }
-        //}
-        private async void LoadLeagueTeamsLogo(League league)
+        
+        private async Task LoadLeagueTeamsLogo(League league)
         {
-            var sport = league.Group;
-            //var teamLogo = await service.GetLeagueAndAllTeamLogos(sport);
-
             
+            if (league != null )
+            {
+                await service.GetLeagueAndAllTeamLogos(league);
+            }
+
 
 
         }

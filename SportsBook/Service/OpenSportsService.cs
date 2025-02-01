@@ -19,7 +19,11 @@ namespace SportsBook.Service
         //readonly string apiKey = "25a76397ce707ce354744acbafd9acf5";
         //readonly string apiKey = "773f1bb5185087c5a40801f8fa5c5eb6";
         //readonly string apiKey = "214fd128fb2e1b884caa6b784285de73";
-        readonly string apiKey = "0bc05f854dc6a615cdefa490da07a30f";
+        //readonly string apiKey = "0bc05f854dc6a615cdefa490da07a30f";
+        readonly string apiKey = "e3481e2ebe88d5098c5264eb2757a5d4";
+
+
+
 
 
 
@@ -29,7 +33,7 @@ namespace SportsBook.Service
         readonly string daysFrom = "3";
         readonly string dateFormat = "iso";
 
-       
+
 
         public async Task<List<SportsApiDataOdds>> GetApiDataAsyncOdds(string sportName)
         {
@@ -53,10 +57,10 @@ namespace SportsBook.Service
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
-            
+
         }
 
         public async Task<List<League>> GetApiSportsAsync()
@@ -74,8 +78,8 @@ namespace SportsBook.Service
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
                 response.EnsureSuccessStatusCode();
                 var sportsname = await response.Content.ReadFromJsonAsync<List<League>>();
-                
-                
+
+
                 return sportsname ?? new List<League>();
 
             }
@@ -116,47 +120,60 @@ namespace SportsBook.Service
 
 
 
-        readonly string logoApiUrl = "https://site.web.api.espn.com";
-
         //https://site.web.api.espn.com/apis/site/v2/sports/{soccer}/{eng.1}/teams/
 
-        public async void GetLeagueAndAllTeamLogos(string sport)
+        readonly string logoApiUrl = "https://site.web.api.espn.com";
+
+
+        public async Task GetLeagueAndAllTeamLogos(League league)
         {
             List<GroupedTeamsAndLogo> groupedTeamsList = new List<GroupedTeamsAndLogo>();
+            var nameConverter = new SportAndLeagueNameConverter();
 
-            var sport2 = "soccer";
-            var league = "eng.1";
-            var url = $"{logoApiUrl}/apis/site/v2/sports/{sport2.ToLower()}/{league}/teams";
-            SportApiDataLeagueTeam LeagueTeams = await GetTeamLogoApi(url);
+            string? sport = league.Group;
+            string? leagueKey = league.Key;
 
-            if (LeagueTeams?.sports != null)
+            string sport2 = "soccer";
+            string league2 = "eng.1";
+            if (sport != null && leagueKey != null)
             {
-                foreach (var _sport in LeagueTeams.sports)
-                {
-                    if (_sport?.leagues != null)
-                    {
-                        foreach (var _league in _sport.leagues)
-                        {
-                            var groupedTeams = new GroupedTeamsAndLogo
-                            {
-                                LeagueName = _league.name,
-                                Teams = new Dictionary<string, string>()
-                            };
+                string leagueName = nameConverter.LeagueNamesConvert(leagueKey);
+                string sportName = nameConverter.SportNamesConvert(sport);
 
-                            if (_league?.teams != null)
+
+                var url = $"{logoApiUrl}/apis/site/v2/sports/{sportName.ToLower()}/{leagueName}/teams";
+                SportApiDataLeagueTeam LeagueTeams = await GetTeamLogoApi(url);
+
+                if (LeagueTeams?.sports != null)
+                {
+                    foreach (var _sport in LeagueTeams.sports)
+                    {
+                        if (_sport?.leagues != null)
+                        {
+                            foreach (var _league in _sport.leagues)
                             {
-                                foreach (var teamWrapper in _league.teams)
+                                var groupedTeams = new GroupedTeamsAndLogo
                                 {
-                                    var team = teamWrapper.team;
-                                    if (team != null && team.logos != null && team.logos.Count > 0)
+                                    LeagueName = _league.name,
+                                    Teams = new Dictionary<string, string>()
+                                };
+
+                                if (_league?.teams != null)
+                                {
+                                    foreach (var teamWrapper in _league.teams)
                                     {
-                                        string logoUrl = team.logos.First().href; // Get the first logo
-                                        groupedTeams.Teams[team.displayName] = logoUrl;
+                                        var team = teamWrapper.team;
+                                        if (team != null && team.logos != null && team.logos.Count > 0)
+                                        {
+                                            string logoUrl = team.logos.First().href; // Get the first logo
+                                            groupedTeams.Teams[team.displayName] = logoUrl;
+                                        }
                                     }
                                 }
-                            }
 
-                            groupedTeamsList.Add(groupedTeams);
+                                groupedTeamsList.Add(groupedTeams);
+                                AddTeamLogoToMatch(league, groupedTeams);
+                            }
                         }
                     }
                 }
@@ -179,6 +196,27 @@ namespace SportsBook.Service
 
                 throw;
             }
+        }
+
+        public async void AddTeamLogoToMatch(League league, GroupedTeamsAndLogo teamsAndLogo)
+        {
+            if (league.LeagueGames != null)
+            {
+
+                foreach (var game in league.LeagueGames)
+                {
+                    if (teamsAndLogo.Teams.TryGetValue(game.home_team, out string? homeLogo))
+                    {
+                        game.home_team_logo = homeLogo;
+                    }
+
+                    if (teamsAndLogo.Teams.TryGetValue(game.away_team, out string? awayLogo))
+                    {
+                        game.away_team_logo = awayLogo;
+                    }
+                }
+            }
+
         }
     }
 }

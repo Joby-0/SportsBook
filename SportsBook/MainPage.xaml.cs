@@ -6,10 +6,13 @@ namespace SportsBook
     public partial class MainPage : ContentPage
     {
         int count = 0;
+        OpenSportsService service;
 
         public MainPage()
         {
             InitializeComponent();
+            service = new OpenSportsService();
+            //service.GetLeagueAndAllTeamLogos("hej");
         }
 
 
