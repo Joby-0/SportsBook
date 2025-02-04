@@ -125,98 +125,98 @@ namespace SportsBook.Service
         readonly string logoApiUrl = "https://site.web.api.espn.com";
 
 
-        public async Task GetLeagueAndAllTeamLogos(League league)
-        {
-            List<GroupedTeamsAndLogo> groupedTeamsList = new List<GroupedTeamsAndLogo>();
-            var nameConverter = new SportAndLeagueNameConverter();
+        //public async Task GetLeagueAndAllTeamLogos(League league)
+        //{
+        //    List<GroupedTeamsAndLogo> groupedTeamsList = new List<GroupedTeamsAndLogo>();
+        //    var nameConverter = new SportAndLeagueNameConverter();
 
-            string? sport = league.Group;
-            string? leagueKey = league.Key;
+        //    string? sport = league.Group;
+        //    string? leagueKey = league.Key;
 
-            string sport2 = "soccer";
-            string league2 = "eng.1";
-            if (sport != null && leagueKey != null)
-            {
-                string leagueName = nameConverter.LeagueNamesConvert(leagueKey);
-                string sportName = nameConverter.SportNamesConvert(sport);
+        //    string sport2 = "soccer";
+        //    string league2 = "eng.1";
+        //    if (sport != null && leagueKey != null)
+        //    {
+        //        string leagueName = nameConverter.LeagueNamesConvert(leagueKey);
+        //        string sportName = nameConverter.SportNamesConvert(sport);
 
 
-                var url = $"{logoApiUrl}/apis/site/v2/sports/{sportName.ToLower()}/{leagueName}/teams";
-                SportApiDataLeagueTeam LeagueTeams = await GetTeamLogoApi(url);
+        //        var url = $"{logoApiUrl}/apis/site/v2/sports/{sportName.ToLower()}/{leagueName}/teams";
+        //        SportApiDataLeagueTeam LeagueTeams = await GetTeamLogoApi(url);
 
-                if (LeagueTeams?.sports != null)
-                {
-                    foreach (var _sport in LeagueTeams.sports)
-                    {
-                        if (_sport?.leagues != null)
-                        {
-                            foreach (var _league in _sport.leagues)
-                            {
-                                var groupedTeams = new GroupedTeamsAndLogo
-                                {
-                                    LeagueName = _league.name,
-                                    Teams = new Dictionary<string, string>()
-                                };
+        //        if (LeagueTeams?.sports != null)
+        //        {
+        //            foreach (var _sport in LeagueTeams.sports)
+        //            {
+        //                if (_sport?.leagues != null)
+        //                {
+        //                    foreach (var _league in _sport.leagues)
+        //                    {
+        //                        var groupedTeams = new GroupedTeamsAndLogo
+        //                        {
+        //                            LeagueName = _league.name,
+        //                            Teams = new Dictionary<string, string>()
+        //                        };
 
-                                if (_league?.teams != null)
-                                {
-                                    foreach (var teamWrapper in _league.teams)
-                                    {
-                                        var team = teamWrapper.team;
-                                        if (team != null && team.logos != null && team.logos.Count > 0)
-                                        {
-                                            string logoUrl = team.logos.First().href; // Get the first logo
-                                            groupedTeams.Teams[team.displayName] = logoUrl;
-                                        }
-                                    }
-                                }
+        //                        if (_league?.teams != null)
+        //                        {
+        //                            foreach (var teamWrapper in _league.teams)
+        //                            {
+        //                                var team = teamWrapper.team;
+        //                                if (team != null && team.logos != null && team.logos.Count > 0)
+        //                                {
+        //                                    string logoUrl = team.logos.First().href; // Get the first logo
+        //                                    groupedTeams.Teams[team.displayName] = logoUrl;
+        //                                }
+        //                            }
+        //                        }
 
-                                groupedTeamsList.Add(groupedTeams);
-                                AddTeamLogoToMatch(league, groupedTeams);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //                        groupedTeamsList.Add(groupedTeams);
+        //                        AddTeamLogoToMatch(league, groupedTeams);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        public async Task<SportApiDataLeagueTeam> GetTeamLogoApi(string url)
-        {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                var sportsApiDataTeam = await response.Content.ReadFromJsonAsync<SportApiDataLeagueTeam>();
+        //public async Task<SportApiDataLeagueTeam> GetTeamLogoApi(string url)
+        //{
+        //    try
+        //    {
+        //        HttpResponseMessage response = await _httpClient.GetAsync(url);
+        //        response.EnsureSuccessStatusCode();
+        //        var sportsApiDataTeam = await response.Content.ReadFromJsonAsync<SportApiDataLeagueTeam>();
 
-                return sportsApiDataTeam;
+        //        return sportsApiDataTeam;
 
-            }
-            catch (Exception)
-            {
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
 
-        public async void AddTeamLogoToMatch(League league, GroupedTeamsAndLogo teamsAndLogo)
-        {
-            if (league.LeagueGames != null)
-            {
+        //public async void AddTeamLogoToMatch(League league, GroupedTeamsAndLogo teamsAndLogo)
+        //{
+        //    if (league.LeagueGames != null)
+        //    {
 
-                foreach (var game in league.LeagueGames)
-                {
-                    if (teamsAndLogo.Teams.TryGetValue(game.home_team, out string? homeLogo))
-                    {
-                        game.home_team_logo = homeLogo;
-                    }
+        //        foreach (var game in league.LeagueGames)
+        //        {
+        //            if (teamsAndLogo.Teams.TryGetValue(game.home_team, out string? homeLogo))
+        //            {
+        //                game.home_team_logo = homeLogo;
+        //            }
 
-                    if (teamsAndLogo.Teams.TryGetValue(game.away_team, out string? awayLogo))
-                    {
-                        game.away_team_logo = awayLogo;
-                    }
-                }
-            }
+        //            if (teamsAndLogo.Teams.TryGetValue(game.away_team, out string? awayLogo))
+        //            {
+        //                game.away_team_logo = awayLogo;
+        //            }
+        //        }
+        //    }
 
-        }
+        //}
     }
 }
