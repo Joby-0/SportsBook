@@ -13,10 +13,8 @@ namespace SportsBook.Models
         public string? homeTeamLogo { get; set; }
         public string? awayTeamLogo { get; set; }
         public DateTime? date { get; set; }
-
         public string? homeTeamScore { get; set; }
         public string? awayTeamScore { get; set;}
-
         public double? clock {  get; set; }
 
     }

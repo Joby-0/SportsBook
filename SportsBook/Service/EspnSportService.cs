@@ -7,12 +7,14 @@ namespace SportsBook.Service
     internal class EspnSportService
     {
         private readonly HttpClient _httpClient;
+        Exception Ex;
+
 
         public EspnSportService()
         {
             _httpClient = new HttpClient();
+            Ex = new Exception();
         }
-
 
         //Step one get sport and sportname to list
         public async Task<List<EspnSportsName>> GetEspnSportsAsync()
@@ -64,7 +66,6 @@ namespace SportsBook.Service
         }
 
 
-
         //step 3 league names
         public static async Task<List<EspnLeagueGroupNameAndRef>> FetchLeaguesWithNames(string leaguesApiUrl, string sportSlug)
         {
@@ -82,7 +83,6 @@ namespace SportsBook.Service
             {
                 try
                 {
-                    
                     string leagueJson = await client.GetStringAsync(league.Url);
                     var leagueDetails = JsonSerializer.Deserialize<EspnLeagueDetails>(leagueJson,
                         new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -112,18 +112,6 @@ namespace SportsBook.Service
         }
 
         //step fem League Games
-        //public static async Task<EspnSportLeagueData> EspnLeagueGamesData(string sportSlug, string league)
-        //{
-        //    using HttpClient client = new HttpClient();
-        //    var url = $"https://site.api.espn.com/apis/site/v2/sports/{sportSlug}/{league}/scoreboard";
-        //    string json = await client.GetStringAsync(url);
-
-        //    var leagueGamesInfo = JsonSerializer.Deserialize<EspnSportLeagueData>(json,
-        //        new JsonSerializerOptions { PropertyNameCaseInsensitive = false });
-
-        //    return leagueGamesInfo;
-        //}
-        Exception Ex;
         public async Task<EspnSportLeagueData> EspnLeagueGamesData(string sportSlug, string league)
         {
             using HttpClient _httpClient = new HttpClient();

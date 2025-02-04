@@ -21,25 +21,15 @@ namespace SportsBook
             try
             {
 
-                //OpenSportsService service = new OpenSportsService();
-                //GroupedSports groupedSports = new GroupedSports();
-                //List<League>? listOfLeagues;
-                //Sport sS = new Sport();
-                EspnSportService a = new EspnSportService();
-                var b = await a.GetEspnSportsAsync();
+                EspnSportService EspnService = new EspnSportService();
+                var SportList = await EspnService.GetEspnSportsAsync();
 
-                //sS.List = await service.GetApiSportsAsync(); // Ensure data fetching completes
-                //var gropedSportList = sS.List.GroupBy(g => g.Group).Select(g => new GroupedSports
-                //{
-                //    sportname = g.Key,
-                //    Sportslist = g.ToList(),
-
-                //}).ToList();
+                
 
                 // Ensure the list is not null or empty
-                if (b != null && b.Any())
+                if (SportList != null && SportList.Any())
                 {
-                    foreach (var sport in b)
+                    foreach (var sport in SportList)
                     {
                         var sc = new ShellContent
                         {
@@ -53,16 +43,12 @@ namespace SportsBook
                                 return tabbedPage;
                             })
                         };
-
                         this.Items.Add(sc); // Add to Shell items
                     }
-
                 }
-                else
-                {
-                }
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

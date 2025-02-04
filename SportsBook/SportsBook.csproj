@@ -63,7 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\TappedMeny.xaml.cs">
+	  <Compile Update="NotUse\TappedMeny.xaml.cs">
 	    <DependentUpon>TappedMeny.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SportsPage.xaml.cs">
@@ -72,7 +72,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\TappedMeny.xaml">
+	  <MauiXaml Update="NotUse\TappedMeny.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SportsPage.xaml">
