@@ -11,6 +11,7 @@ namespace SportsBook.Models
     {
         public IEnumerable<Game>? events { get; set; }
     }
+    
 
     public class Game
     {

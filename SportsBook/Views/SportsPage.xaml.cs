@@ -76,6 +76,7 @@ namespace SportsBook
                     try
                     {
                         var leagueInfo = await EspnSportService.EspnFetchLeagueDetails(selectedLeague.Url);
+                        //await EspnSportService.EspnLeagueGamesDataForSevenDays(selectedLeague.SportSlug, leagueInfo.Slug);
                         var matchinfo = await EspnSportService.EspnLeagueGamesData(selectedLeague.SportSlug, leagueInfo.Slug);
 
 
@@ -98,6 +99,7 @@ namespace SportsBook
                                         homeTeamScore = competition.competitors[0]?.score ?? "0",
                                         awayTeamScore = competition.competitors[1]?.score ?? "0",
                                         date = competition.date.Value,
+                                        displayClock = eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault()
                                         //clock = competition.status?.clock as double? ?? 0.0
 
                                     };
