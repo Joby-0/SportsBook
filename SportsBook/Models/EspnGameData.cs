@@ -15,7 +15,10 @@ namespace SportsBook.Models
         public DateTime? date { get; set; }
         public string? homeTeamScore { get; set; }
         public string? awayTeamScore { get; set;}
-        public double? clock {  get; set; }
+
+        public string? displayClock { get; set; }
+
+        
 
     }
 }
