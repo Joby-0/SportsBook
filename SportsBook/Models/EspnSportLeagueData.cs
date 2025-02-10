@@ -9,11 +9,13 @@ namespace SportsBook.Models
 {
     public class EspnSportLeagueData
     {
-        public IEnumerable<Game>? events { get; set; }
-    }
-    
+        public IEnumerable<Events>? events { get; set; }
 
-    public class Game
+    }
+
+   
+
+    public class Events
     {
         [JsonPropertyName("id")]
         public string? id { get; set; }
@@ -47,16 +49,44 @@ namespace SportsBook.Models
         public Status? status { get; set; }
         public Venue? venue { get; set; }
         public Format? format { get; set; }
-        public string[]? notes { get; set; }
+        //public string[]? notes { get; set; }
         //public List<GeoBroadcasts> geoBroadcasts { get; set; }
         //public List<Broadcasts> broadcasts { get; set; }
         //public string broadcast { get; set; }
         public List<Competitors>? competitors { get; set; }
         public List<Details>? details { get; set; }
         public List<Headlines>? headlines { get; set; }
+        public List<Odds>? odds { get; set; }
         public bool wasSuspended { get; set; }
         public bool playByPlayAvailable { get; set; }
         public bool playByPlayAthletes { get; set; }
+    }
+    public class Odds
+    {
+        public Provider provider { get; set; }
+        public AwayTeamOdds awayTeamOdds { get; set; }
+        public HomeTeamOdds homeTeamOdds { get; set; }
+        public DrawOdds drawOdds { get; set; }
+
+    }
+    public class Provider
+    {
+        public string id { set; get; }
+        public string name { set; get; }
+        public int priority { set; get; }
+    }
+    public class AwayTeamOdds
+    {
+        public double value { get; set; }
+
+    }
+    public class HomeTeamOdds
+    {
+        public double value {  get; set; }
+    }
+    public class DrawOdds
+    {
+        public double value { get; set; }
     }
 
     public class Status
