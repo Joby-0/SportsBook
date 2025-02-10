@@ -38,7 +38,7 @@ namespace SportsBook
                             {
                                 
 
-                               var tabbedPage = new SportsPage(sport.SportName, sport.SportUrl);
+                               var tabbedPage = new SportsPage(sport.SportName, sport.SportUrl, EspnService);
 
                                 return tabbedPage;
                             })

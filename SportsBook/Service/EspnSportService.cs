@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace SportsBook.Service
 {
-    internal class EspnSportService
+    public class EspnSportService
     {
         private readonly HttpClient _httpClient;
         Exception Ex;
@@ -55,7 +55,7 @@ namespace SportsBook.Service
         }
 
         //step two sport info
-        public static async Task<EspnSport> EspnFetchSportData(string url)
+        public async Task<EspnSport> EspnFetchSportData(string url)
         {
             using HttpClient client = new HttpClient();
             string json = await client.GetStringAsync(url);
@@ -102,7 +102,7 @@ namespace SportsBook.Service
 
 
         //step 4 league info 
-        public static async Task<EspnLeagueInfo> EspnFetchLeagueDetails(string leagueUrl)
+        public async Task<EspnLeagueInfo> EspnFetchLeagueDetails(string leagueUrl)
         {
             using HttpClient client = new HttpClient();
             string json = await client.GetStringAsync(leagueUrl);
@@ -145,7 +145,7 @@ namespace SportsBook.Service
             List<EspnSportLeagueData> sevenDaysOfGames = new List<EspnSportLeagueData>();
             try
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 7; i++)
                 {
                     string date = today.AddDays(i).ToString("yyyyMMdd");
                     var url = $"https://site.api.espn.com/apis/site/v2/sports/{sportSlug}/{league}/scoreboard?dates={date}";
