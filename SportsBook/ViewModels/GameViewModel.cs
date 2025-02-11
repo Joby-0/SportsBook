@@ -1,5 +1,6 @@
 ﻿using SportsBook.Models;
 using SportsBook.Service;
+using SportsBook.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace SportsBook.ViewModels
         private readonly EspnSportService _espnSportService = new EspnSportService();
 
 
-        private ObservableCollection<EspnGameData> _matchList;
+        private ObservableCollection<EspnGameData>? _matchList;
         public ObservableCollection<EspnGameData> MatchList
         {
             get => _matchList;
@@ -45,7 +46,13 @@ namespace SportsBook.ViewModels
             }
         }
 
-        private CancellationTokenSource _cancellationTokenSource;
+        
+
+        
+       
+
+
+        //private CancellationTokenSource _cancellationTokenSource;
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -69,7 +76,7 @@ namespace SportsBook.ViewModels
                                 var competition = eventData.competitions.FirstOrDefault();
                                 if (competition == null || competition.competitors.Count < 0)
                                     return null;
-
+                                
                                 return new EspnGameData
                                 {
                                     gameId = eventData.id,
@@ -79,11 +86,17 @@ namespace SportsBook.ViewModels
                                     awayTeamLogo = competition.competitors[1]?.team?.logo,
                                     homeTeamScore = competition.competitors[0]?.score ?? "0",
                                     awayTeamScore = competition.competitors[1]?.score ?? "0",
-                                    //awayTeamOdds = competition.odds[0]?.awayTeamOdds.value ?? 0,
+                                    //awayTeamOdds = competition.odds[0]?.awayTeamOdds?.value ?? 0,
                                     //homeTeamOdds = competition.odds[0]?.homeTeamOdds?.value ?? 0,
                                     //drawOdds = competition.odds[0]?.drawOdds?.value ?? 0,
                                     date = competition.date.Value,
-                                    displayClock = eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault()
+                                    //displayClock = eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault(),
+                                    gameStatus = eventData.competitions.Any(a => a.status.type.state == "post") ? "FT"
+                                            : eventData.competitions.Any(a => a.status.type.state == "pre") ? $"{competition.date.Value:t}"
+                                            : eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault()
+
+
+
                                 };
                             }
                             catch (Exception ex)
@@ -101,6 +114,7 @@ namespace SportsBook.ViewModels
                 {
                     IsGamesVisible = false;
                     // Display a message that no games are found
+                    
                 }
             }
             catch (Exception ex)
@@ -109,29 +123,46 @@ namespace SportsBook.ViewModels
                 // Display an error message
             }
         }
+
+
+
+        private CancellationTokenSource? _cancellationTokenSource;
         private void StartPeriodicUpdate(EspnLeagueGroupNameAndRef selectedLeague, string leagueSlug)
         {
-            // Cancel any previous updates
-            _cancellationTokenSource?.Cancel();
-
-            // Set a new cancellation token source
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            // Set a timer to refresh the game stats every 30 seconds
-            StartUpdatingGameStats(selectedLeague, leagueSlug);
-        }
-        public void StartUpdatingGameStats(EspnLeagueGroupNameAndRef selectedLeague, string leagueSlug)
-        {
-            // This will start the background task that updates the game stats every 30 seconds
-            Task.Run(async () => await StartGameStatsUpdater(selectedLeague, leagueSlug));
-        }
-
-        public async Task StartGameStatsUpdater(EspnLeagueGroupNameAndRef selectedLeague, string leagueSlug)
-        {
-            while (true)
+            // Cancel and dispose the previous token source
+            if (_cancellationTokenSource != null)
             {
-                await UpdateGameStats(selectedLeague, leagueSlug);  // Your method to update the game stats
-                await Task.Delay(TimeSpan.FromSeconds(30));  // Wait for 30 seconds before the next update
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+            }
+
+            // Create a new token source
+            _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken token = _cancellationTokenSource.Token;
+
+            // Start updating game stats with the cancellation token
+            StartUpdatingGameStats(selectedLeague, leagueSlug, token);
+        }
+
+        public void StartUpdatingGameStats(EspnLeagueGroupNameAndRef selectedLeague, string leagueSlug, CancellationToken token)
+        {
+            // Run the game stats updater with cancellation handling
+            Task.Run(async () => await StartGameStatsUpdater(selectedLeague, leagueSlug, token), token);
+        }
+
+        public async Task StartGameStatsUpdater(EspnLeagueGroupNameAndRef selectedLeague, string leagueSlug, CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    await UpdateGameStats(selectedLeague, leagueSlug); // Your update method
+                    await Task.Delay(TimeSpan.FromSeconds(30), token); // Cancellable delay
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                // Task was cancelled - handle any cleanup if needed
             }
         }
 
@@ -143,37 +174,45 @@ namespace SportsBook.ViewModels
 
                 if (matchInfo?.events != null && matchInfo.events.Any())
                 {
-                    MatchList = new ObservableCollection<EspnGameData>(
-                        matchInfo.events.Select(eventData =>
-                        {
-                            try
+                    if (matchInfo?.events != null && matchInfo.events.Any())
+                    {
+                        MatchList = new ObservableCollection<EspnGameData>(
+                            matchInfo.events.Select(eventData =>
                             {
-                                var competition = eventData.competitions.FirstOrDefault();
-                                if (competition == null || competition.competitors.Count < 0)
-                                    return null;
-
-                                return new EspnGameData
+                                try
                                 {
-                                    homeTeam = competition.competitors[0]?.team?.name ?? "Unknown",
-                                    awayTeam = competition.competitors[1]?.team?.name ?? "Unknown",
-                                    homeTeamLogo = competition.competitors[0]?.team?.logo,
-                                    awayTeamLogo = competition.competitors[1]?.team?.logo,
-                                    homeTeamScore = competition.competitors[0]?.score ?? "0",
-                                    awayTeamScore = competition.competitors[1]?.score ?? "0",
-                                    //awayTeamOdds = competition.odds[0]?.awayTeamOdds.value,
-                                    //homeTeamOdds = competition.odds[0]?.homeTeamOdds?.value,
-                                    //drawOdds = competition.odds[0]?.drawOdds?.value,
-                                    date = competition.date.Value,
-                                    displayClock = eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault()
-                                };
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine($"Error processing match: {ex.Message}");
-                                return null;
-                            }
-                        }).Where(match => match != null)
-                    );
+                                    var competition = eventData.competitions.FirstOrDefault();
+                                    if (competition == null || competition.competitors.Count < 0)
+                                        return null;
+
+                                    return new EspnGameData
+                                    {
+                                        gameId = eventData.id,
+                                        homeTeam = competition.competitors[0]?.team?.name ?? "Unknown",
+                                        awayTeam = competition.competitors[1]?.team?.name ?? "Unknown",
+                                        homeTeamLogo = competition.competitors[0]?.team?.logo,
+                                        awayTeamLogo = competition.competitors[1]?.team?.logo,
+                                        homeTeamScore = competition.competitors[0]?.score ?? "0",
+                                        awayTeamScore = competition.competitors[1]?.score ?? "0",
+                                        //awayTeamOdds = competition.odds[0]?.awayTeamOdds?.value ?? 0,
+                                        //homeTeamOdds = competition.odds[0]?.homeTeamOdds?.value ?? 0,
+                                        //drawOdds = competition.odds[0]?.drawOdds?.value ?? 0,
+                                        date = competition.date.Value,
+                                        //displayClock = eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault(),
+                                        // Determine Game Status
+                                        gameStatus = eventData.competitions.Any(a => a.status.type.state == "post") ? "FT"
+                                            : eventData.competitions.Any(a => a.status.type.state == "pre") ? $"{competition.date.Value:t}"
+                                            : eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault()
+                                    };
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine($"Error processing match: {ex.Message}");
+                                    return null;
+                                }
+                            }).Where(match => match != null)
+                        );
+                    }
                 }
             }
             catch (Exception ex)

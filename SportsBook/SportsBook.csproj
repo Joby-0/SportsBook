@@ -57,16 +57,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Remove="Views\GameStats.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Include="Views\GameStats.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -76,6 +66,9 @@
 	  <Compile Update="NotUse\TappedMeny.xaml.cs">
 	    <DependentUpon>TappedMeny.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\GameStatsPage.xaml.cs">
+	    <DependentUpon>GameStatsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SportsPage.xaml.cs">
 	    <DependentUpon>SportsPage.xaml</DependentUpon>
 	  </Compile>
@@ -83,6 +76,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="NotUse\TappedMeny.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\GameStatsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SportsPage.xaml">

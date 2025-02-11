@@ -63,16 +63,16 @@ namespace SportsBook.Models
     }
     public class Odds
     {
-        public Provider provider { get; set; }
-        public AwayTeamOdds awayTeamOdds { get; set; }
-        public HomeTeamOdds homeTeamOdds { get; set; }
-        public DrawOdds drawOdds { get; set; }
+        public Provider? provider { get; set; }
+        public AwayTeamOdds? awayTeamOdds { get; set; }
+        public HomeTeamOdds? homeTeamOdds { get; set; }
+        public DrawOdds? drawOdds { get; set; }
 
     }
     public class Provider
     {
-        public string id { set; get; }
-        public string name { set; get; }
+        public string? id { set; get; }
+        public string? name { set; get; }
         public int priority { set; get; }
     }
     public class AwayTeamOdds
