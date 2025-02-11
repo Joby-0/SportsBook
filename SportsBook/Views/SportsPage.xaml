@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SportsBook.SportsPage">
+    
     <ContentPage.Content>
 
         <!--League meny -->
         <StackLayout>
-                <!--<StackLayout HeightRequest="30" BackgroundColor="Grey" Orientation="Horizontal">-->
-                <CollectionView HeightRequest="40" VerticalOptions="Start" ItemsSource="{Binding EspnLeagueList}" x:Name="EspnLeagueList" 
+            <!--<StackLayout HeightRequest="30" BackgroundColor="Grey" Orientation="Horizontal">-->
+            <CollectionView HeightRequest="40" VerticalOptions="Start" ItemsSource="{Binding EspnLeagueList}" x:Name="EspnLeagueList" 
                     ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChanged="LeagueTabList_SelectionChanged" >
-                    <!--SelectionChanged="LeagueTabList_SelectionChanged"-->
-                    <CollectionView.ItemTemplate>
+                <!--SelectionChanged="LeagueTabList_SelectionChanged"-->
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
                             <Frame  Background="Transparent" HasShadow="False" Padding="5" Margin="0" HeightRequest="40" CornerRadius="0">
@@ -27,21 +29,23 @@
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                </CollectionView>
-                <!--</StackLayout>-->
-            
-                <!--<Grid ColumnDefinitions="auto,auto,auto,auto">-->
-                <StackLayout Orientation="Horizontal" x:Name="GamesFilterMenu" HeightRequest="50" BackgroundColor="Black" IsVisible="{Binding GameViewModel.IsGamesVisible}">
-                    <DatePicker VerticalOptions="Center" HorizontalOptions="Center"></DatePicker>
-                    <DatePicker VerticalOptions="Center" HorizontalOptions="Center"></DatePicker>
-                </StackLayout>
+            </CollectionView>
+            <!--</StackLayout>-->
 
-                <CollectionView x:Name="LeagueGamesGrid"  ItemsSource="{Binding GameViewModel.MatchList}" MinimumHeightRequest="500" WidthRequest="1000"> <!--this fix layout-->
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="4"></GridItemsLayout>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
+            <!--<Grid ColumnDefinitions="auto,auto,auto,auto">-->
+            <StackLayout Orientation="Horizontal" x:Name="GamesFilterMenu" HeightRequest="50" BackgroundColor="Black" IsVisible="{Binding GameViewModel.IsGamesVisible}">
+                <DatePicker VerticalOptions="Center" HorizontalOptions="Center"></DatePicker>
+                <DatePicker VerticalOptions="Center" HorizontalOptions="Center"></DatePicker>
+            </StackLayout>
+            
+            <CollectionView x:Name="LeagueGamesGrid"  ItemsSource="{Binding GameViewModel.MatchList}" MinimumHeightRequest="500" WidthRequest="1000">
+                <!--this fix layout-->
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="4"></GridItemsLayout>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
                         
                         <Grid RowDefinitions="20, 60, 30, 25"
                                     ColumnDefinitions="80, 32.5,5 ,32.5, 80"
@@ -49,55 +53,57 @@
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                             </Grid.GestureRecognizers>
-                                    <BoxView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" BackgroundColor="Gray" CornerRadius="3" ></BoxView>
-                                    <!--Time-->
-                                    <Label Margin="0,0,4,0" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" HorizontalOptions="End" FontSize="13" FontAttributes="Bold" TextColor="Black" VerticalOptions="Start" Text="{Binding displayClock}"></Label>
-
-                                    <!-- Live or start time -->
-                                    <Label Margin="4,0,0,0"  Grid.ColumnSpan="5" x:Name="LeagueGameLiveOrTimeOfStart" Text="{Binding date}" Grid.Row="0" Grid.Column="0" FontSize="10" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start"></Label>
-                                    
+                            
+                            <BoxView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" BackgroundColor="Grey" CornerRadius="3" ></BoxView>
+                            <!--Time-->
+                            <Label Margin="0,0,4,0" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" HorizontalOptions="End" FontSize="13" FontAttributes="Bold" TextColor="Black" VerticalOptions="Start" Text="{Binding gameStatus}" ></Label>
 
 
-                                    <!-- Home team logo -->
-                                    <Image x:Name="LeagueGameHomeLogo" Source="{Binding homeTeamLogo}" Grid.Row="1" Grid.Column="0"  HeightRequest="50" WidthRequest="50"/>
-
-                                    <!-- score home and away-->
-                                    <Grid RowDefinitions="20,9,3,8,20" ColumnDefinitions="32.5,5,32.5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" >
-                                        <Label TextColor="Black" FontAttributes="Bold" x:Name="LeagueGameHomeScore"  Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" FontSize="18" HorizontalOptions="Center" Text="{Binding homeTeamScore}" ></Label>
-                                         <Label TextColor="Black" FontAttributes="Bold" Grid.Row="2" Grid.Column="1" HeightRequest="30" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center">-</Label>
-                                        <Label TextColor="Black" FontAttributes="Bold" x:Name="LeagueGameAwayScore" Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding awayTeamScore}"></Label>
-                                    </Grid>
-
-                                    <!-- Away team logo -->
-                                    <Image x:Name="LeagueGameAwayLogo" Source="{Binding awayTeamLogo}" Grid.Row="1" Grid.Column="4"  HeightRequest="50" WidthRequest="50"/>
-
-
-                                    <!-- Row 3 (For Team name and time) -->
-                                    <!--Home team-->
-                                    <Label x:Name="LeagueGameHomeName" Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding homeTeam}"></Label>
-                                    <!--Away team-->
-                                    <Label x:Name="LeagueGameAwayName" Grid.Row="2" Grid.Column="5" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding awayTeam}"></Label>
-
-                                    <!-- Row 4, Buttons ods -->
-
-                                    <!--Home team-->
-                                    <!--<BoxView Grid.Row="3" Grid.Column="0"  />-->
-                                    <Label Grid.Row="3" Grid.Column="0" Text="{Binding homeTeamOdds}" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" ></Label>
-                                    
-                                    <!--draw-->
-                                    <!--<BoxView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="AliceBlue"/>-->
-                                    <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding drawOdds}" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" ></Label>
-
-                                    <!--Away team-->
-                                    <!--<BoxView Grid.Row="3" Grid.Column="5"   />-->
-                                    <Label Grid.Row="3" Grid.Column="5" Text="{Binding awayTeamOdds}" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" ></Label>
+                            <!-- Live or start time -->
+                            <Label Margin="4,0,0,0"  Grid.ColumnSpan="5" x:Name="LeagueGameLiveOrTimeOfStart" Text="{Binding date}" Grid.Row="0" Grid.Column="0" FontSize="10" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start"></Label>
 
 
 
-                                </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            <!-- Home team logo -->
+                            <Image x:Name="LeagueGameHomeLogo" Source="{Binding homeTeamLogo}" Grid.Row="1" Grid.Column="0"  HeightRequest="50" WidthRequest="50"/>
+
+                            <!-- score home and away-->
+                            <Grid RowDefinitions="20,9,3,8,20" ColumnDefinitions="32.5,5,32.5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" >
+                                <Label TextColor="Black" FontAttributes="Bold" x:Name="LeagueGameHomeScore"  Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" FontSize="18" HorizontalOptions="Center" Text="{Binding homeTeamScore}" ></Label>
+                                <Label TextColor="Black" FontAttributes="Bold" Grid.Row="2" Grid.Column="1" HeightRequest="30" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center">-</Label>
+                                <Label TextColor="Black" FontAttributes="Bold" x:Name="LeagueGameAwayScore" Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding awayTeamScore}"></Label>
+                            </Grid>
+
+                            <!-- Away team logo -->
+                            <Image x:Name="LeagueGameAwayLogo" Source="{Binding awayTeamLogo}" Grid.Row="1" Grid.Column="4"  HeightRequest="50" WidthRequest="50"/>
+
+
+                            <!-- Row 3 (For Team name and time) -->
+                            <!--Home team-->
+                            <Label x:Name="LeagueGameHomeName" Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding homeTeam}"></Label>
+                            <!--Away team-->
+                            <Label x:Name="LeagueGameAwayName" Grid.Row="2" Grid.Column="5" HorizontalOptions="Center" FontSize="12" TextColor="Black" VerticalOptions="Start" Text="{Binding awayTeam}"></Label>
+
+                            <!-- Row 4, Buttons ods -->
+
+                            <!--Home team-->
+                            <BoxView Grid.Row="3" Grid.Column="0"  />
+                            <Label Grid.Row="3" Grid.Column="0" Text="{Binding homeTeamOdds}" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" ></Label>
+
+                            <!--draw-->
+                            <BoxView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="AliceBlue"/>
+                            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding drawOdds}" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" ></Label>
+
+                            <!--Away team-->
+                            <BoxView Grid.Row="3" Grid.Column="5"   />
+                            <Label Grid.Row="3" Grid.Column="5" Text="{Binding awayTeamOdds}" HorizontalOptions="Center" TextColor="Black" VerticalOptions="Center" ></Label>
+
+
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             <!--</Grid>-->
         </StackLayout>
 

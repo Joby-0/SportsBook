@@ -27,6 +27,7 @@ namespace SportsBook.Models
 
         public string? displayClock { get; set; }
         public DateTime? date { get; set; }
+        public string? gameStatus { get; set; }
 
 
     }

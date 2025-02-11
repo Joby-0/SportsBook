@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SportsBook.Views.GameStats">
+             x:Class="SportsBook.Views.GameStatsPage">
     
     <ContentPage.Content>
+
+        
         <StackLayout>
+            <StackLayout HeightRequest="50" BackgroundColor="Gray">
+                <Button></Button>
+            </StackLayout>
             <CollectionView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -13,6 +19,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
+
     </ContentPage.Content>
 
 </ContentPage>
