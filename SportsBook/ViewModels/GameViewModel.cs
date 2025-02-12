@@ -19,7 +19,7 @@ namespace SportsBook.ViewModels
 
 
         private ObservableCollection<EspnGameData>? _matchList;
-        public ObservableCollection<EspnGameData> MatchList
+        public ObservableCollection<EspnGameData>? MatchList
         {
             get => _matchList;
             set
@@ -80,20 +80,28 @@ namespace SportsBook.ViewModels
                                 return new EspnGameData
                                 {
                                     gameId = eventData.id,
+                                    gameLeague = leagueSlug,
+                                    gameSport = selectedLeague.SportSlug,
+
                                     homeTeam = competition.competitors[0]?.team?.name ?? "Unknown",
-                                    awayTeam = competition.competitors[1]?.team?.name ?? "Unknown",
                                     homeTeamLogo = competition.competitors[0]?.team?.logo,
-                                    awayTeamLogo = competition.competitors[1]?.team?.logo,
                                     homeTeamScore = competition.competitors[0]?.score ?? "0",
+
+                                    awayTeam = competition.competitors[1]?.team?.name ?? "Unknown",
+                                    awayTeamLogo = competition.competitors[1]?.team?.logo,
                                     awayTeamScore = competition.competitors[1]?.score ?? "0",
+
                                     //awayTeamOdds = competition.odds[0]?.awayTeamOdds?.value ?? 0,
                                     //homeTeamOdds = competition.odds[0]?.homeTeamOdds?.value ?? 0,
                                     //drawOdds = competition.odds[0]?.drawOdds?.value ?? 0,
+
                                     date = competition.date.Value,
                                     //displayClock = eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault(),
                                     gameStatus = eventData.competitions.Any(a => a.status.type.state == "post") ? "FT"
                                             : eventData.competitions.Any(a => a.status.type.state == "pre") ? $"{competition.date.Value:t}"
-                                            : eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault()
+                                            : eventData.competitions.Select(a => a.status.displayClock).Take(1).FirstOrDefault(),
+
+                                    
 
 
 
@@ -188,6 +196,9 @@ namespace SportsBook.ViewModels
                                     return new EspnGameData
                                     {
                                         gameId = eventData.id,
+                                        gameLeague = leagueSlug,
+                                        gameSport = selectedLeague.SportSlug,
+
                                         homeTeam = competition.competitors[0]?.team?.name ?? "Unknown",
                                         awayTeam = competition.competitors[1]?.team?.name ?? "Unknown",
                                         homeTeamLogo = competition.competitors[0]?.team?.logo,

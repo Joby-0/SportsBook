@@ -167,6 +167,28 @@ namespace SportsBook.Service
         }
 
 
+        //step six game stats
+
+        public async Task<EspnGameStatsData> GetGameStats(string gameId, string sport, string league)
+        {
+            using HttpClient _httpClient = new HttpClient();
+
+            var url = $"http://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/summary?event={gameId}";
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var gameStatsData = await response.Content.ReadFromJsonAsync<EspnGameStatsData>();
+
+                return gameStatsData ?? new EspnGameStatsData();
+            }
+            catch (Exception ex)
+            {
+                ex = Ex;
+                throw new Exception();
+            }
+        }
+
     }
 
 
