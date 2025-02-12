@@ -10,6 +10,9 @@ namespace SportsBook.Models
     public class EspnGameData
     {
         public string? gameId { get; set; }
+        public string? gameSport { get; set; }
+        public string? gameLeague { get; set; }
+
         public string? homeTeam { get; set; }
         public string? homeTeamLogo { get; set; }
         public string? homeTeamScore { get; set; }
@@ -44,7 +47,6 @@ namespace SportsBook.Models
 
         public int? yellowCard {  get; set; }
         public int? redCard { get; set; }
-
 
     }
 

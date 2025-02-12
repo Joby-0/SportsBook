@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Xml;
 using System.Text.Json;
 using SportsBook.ViewModels;
+using SportsBook.Views;
 
 
 namespace SportsBook
@@ -43,11 +44,14 @@ namespace SportsBook
             }
         }
 
-        
+        //tap on a game
         private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
         {
             var gameData = (sender as BindableObject)?.BindingContext as EspnGameData;
-            //await Navigation.PushModalAsync(new SportsPage());
+            if (gameData != null)
+            {
+                await Navigation.PushModalAsync(new GameStatsPage(gameData));
+            }
 
 
         }

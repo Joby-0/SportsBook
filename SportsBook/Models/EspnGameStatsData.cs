@@ -11,7 +11,9 @@ namespace SportsBook.Models
     {
         public Boxscore? boxscore {  get; set; }
         public KeyEvents? keyEvents { get; set; }
+        public Header? header { get; set; }
     }
+    
     public class Boxscore
     {
         //public List<Form> form { get; set; }
@@ -40,5 +42,15 @@ namespace SportsBook.Models
         public string? shortText { get; set; }
         
     }
+    public class Header
+    {
+        public LeagueInfo? league { get; set; }
+    }
+    public class LeagueInfo 
+    { 
+        public string? id { get; set; }
+        public string? name { get; set; }
+        public string? slug { get; set; }
 
+    }
 }
