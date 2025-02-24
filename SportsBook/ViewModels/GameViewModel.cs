@@ -45,14 +45,6 @@ namespace SportsBook.ViewModels
                 }
             }
         }
-
-
-
-
-
-
-
-
         //private CancellationTokenSource _cancellationTokenSource;
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
