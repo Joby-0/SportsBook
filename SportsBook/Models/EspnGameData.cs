@@ -37,17 +37,21 @@ namespace SportsBook.Models
 
     public class EspnGameStats
     {
-        public string? foulsCommitted { get; set; }
-        public string? wonCorners {  get; set; }
-        public string? possessionPct { get; set; }
-        public string? totalShots { get; set; }
-        public string? shotsOnTarget { get; set; }
+        
 
-        public ObservableCollection<WhatHappend>? whatHappend { get; set; }
+        public List<WhatHappend>? whatHappend { get; set; }
 
-        public int? yellowCard {  get; set; }
-        public int? redCard { get; set; }
 
+
+        public string? Fouls { get; set; }
+        public string? Shots { get; set; }
+        public string? ShotsOnTarget { get; set; }
+        public string? Corners { get; set; }
+        public string? RedCards { get; set; }
+        public string? YellowCards { get; set; }
+        public string? PossessionPct { get; set; }
+        public string? Offsides { get; set; }
+        public string? Passes { get; set; } 
     }
 
     public class WhatHappend

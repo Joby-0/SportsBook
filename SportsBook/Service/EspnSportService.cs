@@ -1,6 +1,8 @@
 ﻿//using Org.Apache.Http.Conn;
 using SportsBook.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -9,13 +11,11 @@ namespace SportsBook.Service
     public class EspnSportService
     {
         private readonly HttpClient _httpClient;
-        Exception Ex;
-
+        private readonly object _locker = new object();
 
         public EspnSportService()
         {
             _httpClient = new HttpClient();
-            Ex = new Exception();
         }
 
         //Step one get sport and sportname to list
@@ -63,12 +63,12 @@ namespace SportsBook.Service
             // Deserialize the JSON into the Sport object
             EspnSport sport = JsonSerializer.Deserialize<EspnSport>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             sport.LeagueNames = await FetchLeaguesWithNames(sport.Leagues.Ref, sport.Slug); // lägger till league names and link to sport
-            
+
             return sport;
         }
 
 
-        //step 3 league names
+        //step 3 league names, sport and link
         public static async Task<List<EspnLeagueGroupNameAndRef>> FetchLeaguesWithNames(string leaguesApiUrl, string sportSlug)
         {
             using HttpClient client = new HttpClient();
@@ -89,14 +89,14 @@ namespace SportsBook.Service
                     var leagueDetails = JsonSerializer.Deserialize<EspnLeagueInfo>(leagueJson,
                         new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                    leagues.Add(new EspnLeagueGroupNameAndRef() { name = leagueDetails.DisplayName, Url = league.Url, SportSlug = sportSlug});
+                    leagues.Add(new EspnLeagueGroupNameAndRef() { name = leagueDetails.DisplayName, Url = league.Url, SportSlug = sportSlug, LeagueSlug = leagueDetails.Slug });
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Failed to fetch: {league.Url} - {ex.Message}");
                 }
             }
-            
+
             return leagues;
         }
 
@@ -107,7 +107,7 @@ namespace SportsBook.Service
             using HttpClient client = new HttpClient();
             string json = await client.GetStringAsync(leagueUrl);
 
-            var leagueInfo =  JsonSerializer.Deserialize<EspnLeagueInfo>(json,
+            var leagueInfo = JsonSerializer.Deserialize<EspnLeagueInfo>(json,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return leagueInfo;
@@ -117,6 +117,7 @@ namespace SportsBook.Service
         public async Task<EspnSportLeagueData> EspnLeagueGamesData(string sportSlug, string league)
         {
             using HttpClient _httpClient = new HttpClient();
+
             string date = "20250215";
             var url = $"https://site.api.espn.com/apis/site/v2/sports/{sportSlug}/{league}/scoreboard";
 
@@ -130,41 +131,50 @@ namespace SportsBook.Service
             }
             catch (Exception ex)
             {
-                ex = Ex;
+                Debug.WriteLine(ex.Message);
                 throw new Exception();
             }
 
 
         }
 
-        public async Task<List<EspnSportLeagueData>> EspnLeagueGamesDataForSevenDays(string sportSlug, string league)
+        
+        public async Task<List<EspnSportLeagueData>> EspnLeagueGamesDataForMoreThenOneDay(string sportSlug, string league)
         {
-            using HttpClient _httpClient = new HttpClient();
             DateTime today = DateTime.UtcNow;
-            
-            List<EspnSportLeagueData> sevenDaysOfGames = new List<EspnSportLeagueData>();
+            int dayOfWeek = (int)today.DayOfWeek - 1;
+            if (dayOfWeek < 0) dayOfWeek = 6;
+
+            DateTime startOfWeek = today.AddDays(-dayOfWeek);
+            List<Task<EspnSportLeagueData>> tasks = new List<Task<EspnSportLeagueData>>();
+
             try
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    string date = today.AddDays(i).ToString("yyyyMMdd");
+                    string date = startOfWeek.AddDays(i).ToString("yyyyMMdd");
                     var url = $"https://site.api.espn.com/apis/site/v2/sports/{sportSlug}/{league}/scoreboard?dates={date}";
-
-                    HttpResponseMessage response = await _httpClient.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    var sportsApiData = await response.Content.ReadFromJsonAsync<EspnSportLeagueData>();
-
-                    sevenDaysOfGames.Add(sportsApiData);
+                    tasks.Add(FetchGameData(url));
                 }
-                    return sevenDaysOfGames ?? new List<EspnSportLeagueData>();
 
+                var results = await Task.WhenAll(tasks);
+                return results.Where(r => r != null).ToList();
             }
             catch (Exception ex)
             {
-                ex = Ex;
-                throw new Exception();
+                Debug.WriteLine($"Error: {ex.Message}");
+                return new List<EspnSportLeagueData>();
             }
         }
+
+        private async Task<EspnSportLeagueData> FetchGameData(string url)
+        {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10)); // 10s timeout
+            HttpResponseMessage response = await _httpClient.GetAsync(url, cts.Token);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<EspnSportLeagueData>();
+        }
+
 
 
         //step six game stats
@@ -184,7 +194,7 @@ namespace SportsBook.Service
             }
             catch (Exception ex)
             {
-                ex = Ex;
+                Debug.WriteLine($"{ex.Message}");
                 throw new Exception();
             }
         }

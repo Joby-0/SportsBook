@@ -1,6 +1,7 @@
 ﻿//using Kotlin.Reflect;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace SportsBook.Models
     public class EspnGameStatsData
     {
         public Boxscore? boxscore {  get; set; }
-        public KeyEvents? keyEvents { get; set; }
+        public ObservableCollection<KeyEvents>? keyEvents { get; set; }
         public Header? header { get; set; }
     }
     
@@ -23,7 +24,7 @@ namespace SportsBook.Models
     public class Teams
     {
         public Team? teams { get; set; }
-        public List<GameStatistics>? statistics { get; set; }
+        public ObservableCollection<GameStatistics>? statistics { get; set; }
         public int? displayOrder { get; set; }
         public string? homeAway { get; set; }
     }

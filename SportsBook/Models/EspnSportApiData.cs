@@ -43,6 +43,7 @@ namespace SportsBook.Models
         public string? name { get; set; }
         public string? Url { get; set; }
         public string? SportSlug { get; set; }
+        public string? LeagueSlug { get; set; }
     }
     public class EspnLeaguesRef
     {

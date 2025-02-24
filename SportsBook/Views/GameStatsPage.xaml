@@ -3,21 +3,121 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SportsBook.Views.GameStatsPage">
-    
+
     <ContentPage.Content>
 
-        
-        <StackLayout>
-            <StackLayout HeightRequest="50" BackgroundColor="Gray">
-                <Button></Button>
+
+        <StackLayout WidthRequest="500">
+
+            <StackLayout MinimumHeightRequest="150" BackgroundColor="Grey">
+                <Grid Padding="10"
+                RowDefinitions="20,100,20"
+                ColumnDefinitions="40,100,200,100,40">
+
+                    <!-- Match Date & Status -->
+                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding EspnGameData.date}" FontSize="14" TextColor="White"/>
+                    <Label Grid.Row="0" Grid.Column="5" Text="{Binding EspnGameData.gameStatus}" FontSize="14" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="End"/>
+
+                    <!-- Team Logos -->
+                    <Image Grid.Row="1" Grid.Column="1" Source="{Binding EspnGameData.homeTeamLogo}" HeightRequest="70" WidthRequest="70" Aspect="AspectFit"/>
+                    <Image Grid.Row="1" Grid.Column="3" Source="{Binding EspnGameData.awayTeamLogo}" HeightRequest="70" WidthRequest="70" Aspect="AspectFit"/>
+
+                    <!-- Score -->
+                    <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label Text="{Binding EspnGameData.homeTeamScore}" FontSize="40" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="-" FontSize="40" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="{Binding EspnGameData.awayTeamScore}" FontSize="40" FontAttributes="Bold" TextColor="White"/>
+                    </StackLayout>
+
+                    <!-- Team Names -->
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding EspnGameData.homeTeam}" FontSize="14" TextColor="White" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="2" Grid.Column="3" Text="{Binding EspnGameData.awayTeam}" FontSize="14" TextColor="White" HorizontalTextAlignment="Center"/>
+                </Grid>
             </StackLayout>
-            <CollectionView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+
+
+
+
+
+
+            <!--<CollectionView ItemsSource="{Binding HomeTeamstats}" >
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>-->
+            <Grid Padding="10" ColumnSpacing="20" RowSpacing="10"
+                            HorizontalOptions="Fill" VerticalOptions="Fill"
+                            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,auto,auto"
+                            ColumnDefinitions="*,300,*">
+
+                <!-- Headers -->
+                <Label Grid.Column="0" Grid.Row="0" Text="Home Team" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="0" Text="Stats" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="0" Text="Away Team" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+                <!-- Stats -->
+
+
+                <!-- shots-->
+                <Label Grid.Column="0" Grid.Row="1" Text="{Binding HomeTeamStats.Shots, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="1" Text="Shots" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="1" Text="{Binding AwayTeamStats.Shots, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <!--shots on target-->
+                <Label Grid.Column="0" Grid.Row="2" Text="{Binding HomeTeamStats.ShotsOnTarget, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="2" Text="Shots on Target" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="2" Text="{Binding AwayTeamStats.ShotsOnTarget, FallbackValue='0'}" HorizontalOptions="Center"/>
+
+                <!--possension-->
+                <Label Grid.Column="0" Grid.Row="3" Text="{Binding HomeTeamStats.PossessionPct, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="3" Text="Possession %" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="3" Text="{Binding AwayTeamStats.PossessionPct, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <!--passes-->
+                <Label Grid.Column="0" Grid.Row="4" Text="{Binding HomeTeamStats.Passes, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="4" Text="Passes" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="4" Text="{Binding AwayTeamStats.Passes, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <!-- fouls -->
+                <Label Grid.Column="0" Grid.Row="5" Text="{Binding HomeTeamStats.Fouls, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="5" Text="Fouls" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="5" Text="{Binding AwayTeamStats.Fouls, FallbackValue='0'}" HorizontalOptions="Center"/>
+
+                <!--yellow-->
+                <Label Grid.Column="0" Grid.Row="6" Text="{Binding HomeTeamStats.YellowCards, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="6" Text="Yellow Cards" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="6" Text="{Binding AwayTeamStats.YellowCards, FallbackValue='0'}" HorizontalOptions="Center"/>
+
+                <!--red-->
+                <Label Grid.Column="0" Grid.Row="7" Text="{Binding HomeTeamStats.RedCards, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="7" Text="Red Cards" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="7" Text="{Binding AwayTeamStats.RedCards, FallbackValue='0'}" HorizontalOptions="Center"/>
+
+
+                <!-- offside-->
+                <Label Grid.Column="0" Grid.Row="8" Text="{Binding HomeTeamStats.Offsides, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="8" Text="Offsides" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="8" Text="{Binding AwayTeamStats.Offsides, FallbackValue='0'}" HorizontalOptions="Center"/>
+
+                <!--corders-->
+                <Label Grid.Column="0" Grid.Row="9" Text="{Binding HomeTeamStats.Corners, FallbackValue='0'}" HorizontalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="9" Text="Corners" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Grid.Row="9" Text="{Binding AwayTeamStats.Corners, FallbackValue='0'}" HorizontalOptions="Center"/>
+
+            </Grid>
+
+            <!--</DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>-->
+
+            <!--<ScrollView HeightRequest="200" BackgroundColor="Grey">
+                <ListView HeightRequest="200" ItemsSource="{Binding KeyEvents}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Label  Text="{Binding id}"></Label>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>-->
+
+
+
+
         </StackLayout>
 
     </ContentPage.Content>
