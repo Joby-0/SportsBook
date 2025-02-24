@@ -39,7 +39,7 @@ namespace SportsBook
                 var selectedLeague = e.CurrentSelection.FirstOrDefault() as EspnLeagueGroupNameAndRef;
                 if (selectedLeague != null)
                 {
-                    await _viewModel.GameViewModel.FetchAndUpdateGames(selectedLeague, selectedLeague.SportSlug);
+                    await _viewModel.GameViewModel.FetchAndUpdateGames(selectedLeague, selectedLeague.LeagueSlug);
                 }
             }
         }
@@ -50,7 +50,9 @@ namespace SportsBook
             var gameData = (sender as BindableObject)?.BindingContext as EspnGameData;
             if (gameData != null)
             {
-                await Navigation.PushModalAsync(new GameStatsPage(gameData));
+                //await Navigation.PushModalAsync(new GameStatsPage(gameData));
+                await Shell.Current.Navigation.PushAsync(new GameStatsPage(gameData));
+                //await Shell.Current.GoToAsync(new GameStatsPage(gameData));
             }
 
 
